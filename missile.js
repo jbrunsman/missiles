@@ -1,13 +1,22 @@
 var canvas = document.getElementById("gameCanvas");
 var ctx = canvas.getContext("2d");
 
+// percentages originally pixels at 1000px canvas width
+var fifty = canvas.width * 0.05,
+    forty = canvas.width * 0.04,
+    thirtyfive = canvas.width * 0.035,
+    thirty = canvas.width * 0.03,
+    twenty = canvas.width * 0.02,
+    fifteen = canvas.width * 0.015,
+    ten = canvas.width * 0.01;
+
 var missileArray = [],
     boomArray = [],
-    boomRadius = 35,
+    boomRadius = thirtyfive,
     centerX = canvas.width / 2,
     centerY = canvas.height / 2,
-    earth = canvas.height - 50,
-    aimer = earth - 35,
+    earth = canvas.height - fifty,
+    aimer = earth - thirtyfive
     cityArray = [];
 
 var missiles = 20,
@@ -96,7 +105,7 @@ function launchMissile() {
 
 function calcMissile(xst, yst, xnd, ynd) {
 
-    var segmod = 0.5;
+    var segmod = (canvas.width / 2000) // slow down missiles on a tiny screen, 0.5 for 1000px screen standard
     //try to get the missiles to move a the same-ish speed regardless of angle
     var segs = Math.sqrt(Math.pow(xst - xnd, 2) + Math.pow(yst - ynd, 2)) * segmod;
     
@@ -174,7 +183,7 @@ function boomAdvance() {
         
         for (i = 0; i < cityArray.length; i++) {
             if ((Math.pow(cityArray[i].x - boomArray[n].x, 2) +
-                Math.pow(earth - 15 - boomArray[n].y, 2))
+                Math.pow(earth - fifteen - boomArray[n].y, 2))
                 
                 <= Math.pow(boomArray[n].progress, 2)
                 
@@ -190,7 +199,7 @@ function boomAdvance() {
             }
         }
         
-        if (Math.pow(centerX - boomArray[n].x, 2) + Math.pow(earth - 15 -
+        if (Math.pow(centerX - boomArray[n].x, 2) + Math.pow(earth - fifteen -
             boomArray[n].y, 2) <= Math.pow(boomArray[n].progress, 2)) {
             missiles = 0;
         }
@@ -210,9 +219,9 @@ function drawMap() {
     ctx.fillStyle = "green";
     ctx.fillRect(0, earth, canvas.width, canvas.height);
     ctx.beginPath();
-    ctx.moveTo((canvas.width / 2) - 40, earth);
-    ctx.quadraticCurveTo(centerX, earth - 60, centerX + 40, earth);
-    ctx.moveTo((canvas.width / 2) - 40, earth);
+    ctx.moveTo(centerX - forty, earth);
+    ctx.quadraticCurveTo(centerX, earth - thirty, centerX + forty, earth);
+    ctx.moveTo(centerX - forty, earth);
     ctx.fillStyle = "green";
     ctx.fill();
 
@@ -221,14 +230,14 @@ function drawMap() {
         if (cityArray[i].alive) {
             ctx.beginPath();
             ctx.fillStyle = "dimgray";
-            ctx.fillRect(cityArray[i].x - 20, earth - 15, 20, 15);
+            ctx.fillRect(cityArray[i].x - twenty, earth - fifteen, twenty, fifteen);
             ctx.fillStyle = "gray";
-            ctx.fillRect(cityArray[i].x - 10, earth - 30, 20, 30);
+            ctx.fillRect(cityArray[i].x - ten, earth - thirty, twenty, thirty);
             ctx.fillStyle = "silver";
-            ctx.fillRect(cityArray[i].x, earth - 20, 20, 20);
+            ctx.fillRect(cityArray[i].x, earth - twenty, twenty, twenty);
         } else {
             ctx.beginPath();
-            ctx.arc(cityArray[i].x, earth - 20, boomRadius, 0, 2 * Math.PI);
+            ctx.arc(cityArray[i].x, earth - twenty, boomRadius, 0, 2 * Math.PI);
             ctx.fillStyle = "black";
             ctx.fill();
         }
@@ -241,9 +250,9 @@ function drawHud() {
     // add the base last (looks better this way when shooting)
     ctx.beginPath();
     ctx.fillStyle = "gray";
-    ctx.fillRect(centerX - 10, earth - 35, 20, 10);
+    ctx.fillRect(centerX - ten, earth - thirtyfive, twenty, ten);
     ctx.beginPath();
-    ctx.arc(centerX, aimer, 10, 0, 2 * Math.PI);
+    ctx.arc(centerX, aimer, ten, 0, 2 * Math.PI);
     ctx.fillStyle = "gray";
     ctx.fill();
     
@@ -263,7 +272,7 @@ function drawHud() {
     
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.fillText(score, centerX, 50);
+    ctx.fillText(score, centerX, fifty);
     
 }
 
