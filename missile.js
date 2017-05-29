@@ -18,6 +18,7 @@ var clock,
     roundCount = 5,
     missileTimer = 0;
 
+var isPlaying = false;
 
 function main() {
 
@@ -258,7 +259,8 @@ function drawHud() {
 }
 
 
-function populate() {
+function populateCities() {
+    // find the city locations for aiming later
     var citySpace;
     for (i = 0; i < 6; i++) {
         citySpace = canvas.width / 8;
@@ -268,22 +270,43 @@ function populate() {
             x : citySpace,
         });
     }
-        
-    clock = new Date().getTime();
-    main();
+    if (isPlaying) {
+        clock = new Date().getTime();
+        missiles = 20,
+        score = 0,
+        roundTimer = 20;
+        main();
+    }
 }
-
-
-
 
 canvas.addEventListener("click", function playerFire(event) {
     var field = canvas.getBoundingClientRect();
     var mouseX = event.clientX - field.left;
     var mouseY = event.clientY - field.top;
-    if (missiles > 0) {
-        calcMissile(center, aimer, mouseX, mouseY);
-        missiles--;
+    if (isPlaying) {
+        if (missiles > 0) {
+            calcMissile(center, aimer, mouseX, mouseY);
+            missiles--;
+        }
+    } else {
+        isPlaying = true;
+        populateCities();
     }
 }, false);
 
-populate();
+function titleScreen(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    populateCities();
+    drawMap();
+    drawHud();
+    ctx.font = "45px Sans";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.fillText("Missile Barrage", canvas.width/2, (canvas.height/2)-20);
+    ctx.font = "25px Sans";
+    ctx.fillText("Click to Begin!", canvas.width/2, (canvas.height/2)+20);
+}
+
+titleScreen();
