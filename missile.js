@@ -204,7 +204,7 @@ function boomAdvance() {
             missiles = 0;
         }
                 
-        if (boomArray[n].progress === boomRadius) {
+        if (boomArray[n].progress >= boomRadius) {
             boomArray.splice(n, 1);
         } else {
             boomArray[n].progress += 1;
