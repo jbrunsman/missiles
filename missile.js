@@ -6,6 +6,7 @@ var fifty = canvas.width * 0.05,
     forty = canvas.width * 0.04,
     thirtyfive = canvas.width * 0.035,
     thirty = canvas.width * 0.03,
+    twentyfive = canvas.width * 0.025,
     twenty = canvas.width * 0.02,
     fifteen = canvas.width * 0.015,
     ten = canvas.width * 0.01;
@@ -257,7 +258,11 @@ function drawHud() {
     ctx.fill();
     
     // add HUD last so it's on top
-    ctx.font = "20px Terminal";
+
+    var fontHUD = Math.round(twenty);
+    var fh = fontHUD.toString() + "px Sans";
+
+    ctx.font = fh;
     ctx.textAlign = "center";
     ctx.fillStyle = "black";
     ctx.fillText(
@@ -267,7 +272,7 @@ function drawHud() {
     
     ctx.fillText(
         roundTimer > 9 ? "0:" + roundTimer : "0:0" + roundTimer,
-        centerX, earth + 25
+        centerX, earth + twentyfive
     );
     
     ctx.fillStyle = "white";
@@ -354,17 +359,22 @@ function gameOver() {
 
 function titleBox() {
     ctx.fillStyle = "black";
-    ctx.fillRect(canvas.width / 4, centerY - 110, canvas.width / 2, canvas.height / 4);
-
+    ctx.fillRect(canvas.width / 4, centerY - (canvas.width * 0.11), canvas.width / 2, canvas.height / 4);
     ctx.strokeStyle = "white";
-    ctx.strokeRect(canvas.width / 4, centerY - 110, canvas.width / 2, canvas.height / 4);
+    ctx.strokeRect(canvas.width / 4, centerY - (canvas.width * 0.11), canvas.width / 2, canvas.height / 4);
 
-    ctx.font = "45px Sans";
+    var fontOne = Math.round(canvas.width * 0.045);
+    var fontTwo = Math.round(canvas.width * 0.025);
+
+    var f1 = fontOne.toString() + "px Sans";
+    var f2 = fontTwo.toString() + "px Sans";
+
+    ctx.font = f1;
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.fillText("Missile Barrage", centerX, centerY - 20);
-    ctx.font = "25px Sans";
-    ctx.fillText("Click to Begin!", centerX, centerY + 20);
+    ctx.fillText("Missile Barrage", centerX, centerY - twenty);
+    ctx.font = f2;
+    ctx.fillText("Click to Begin!", centerX, centerY + twenty);
 }
 
 titleScreen();
