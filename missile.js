@@ -13,8 +13,8 @@ var missiles = 20,
     score = 0,
     roundTimer = 20;
 
-var clock,
-    clockNew,
+var clock = 0,
+    clockNew = 0,
     roundCount = 5,
     missileTimer = 0;
 
@@ -22,7 +22,11 @@ var isPlaying = false;
 
 function main() {
 
-    window.requestAnimationFrame(main);
+    if (isPlaying) {
+        window.requestAnimationFrame(main);
+    } else {
+        titleScreen();
+    }
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
@@ -54,6 +58,7 @@ function main() {
     
     drawHud();
     clockNew = new Date().getTime();
+
 }
 
 
@@ -173,6 +178,7 @@ function boomAdvance() {
                 && cityArray[i].alive === true ) {
                 
                 cityArray[i].alive = false;
+                deathTest();
                 boomArray.push({
                     x : cityArray[i].x,
                     y : earth,
@@ -260,6 +266,22 @@ function drawHud() {
 
 
 function populateCities() {
+
+    //reset everything
+    missileArray = [];
+    boomArray = [];
+
+    cityArray = [];
+
+    missiles = 20;
+    score = 0;
+    roundTimer = 20;
+
+    clock = 0;
+    clockNew = 0;
+    roundCount = 5;
+    missileTimer = 0;
+
     // find the city locations for aiming later
     var citySpace;
     for (i = 0; i < 6; i++) {
@@ -294,11 +316,22 @@ canvas.addEventListener("click", function playerFire(event) {
     }
 }, false);
 
+function deathTest(){
+    var aliveCities = 0;
+    for (i = 0; i < cityArray.length; i++){
+        aliveCities += cityArray[i].alive;
+    }
+    if (aliveCities == 0) {
+        isPlaying = false;
+        titleScreen();
+    }
+}
+
 function titleScreen(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    populateCities();
+    //populateCities();
     drawMap();
     drawHud();
     ctx.font = "45px Sans";
@@ -308,5 +341,6 @@ function titleScreen(){
     ctx.font = "25px Sans";
     ctx.fillText("Click to Begin!", canvas.width/2, (canvas.height/2)+20);
 }
+
 
 titleScreen();
