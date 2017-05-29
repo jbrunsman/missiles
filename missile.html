@@ -9,7 +9,24 @@
     <body>
         <!-- <canvas id="gameCanvas" width="1000" height="750" style="border:1px solid #000000"></canvas> -->
         <!-- <canvas id="gameCanvas" width="500" height="375" style="border:1px solid #000000"></canvas> -->
-        <canvas id="gameCanvas" width="250" height="188" style="border:1px solid #000000"></canvas>
+        <canvas id="gameCanvas" width="1" height="1" style="border:1px solid #000000"></canvas>
+        <script>
+
+
+            function sizeCanvas() {
+                var canvas = document.getElementById("gameCanvas");
+                var w = window.innerWidth * 1.25;
+                var h = window.innerHeight * 1.25;
+                if (w > h) {
+                    canvas.width = h;
+                } else {
+                    canvas.width = w;
+                }
+                canvas.height = canvas.width * 0.75;
+            }
+
+            window.onload(sizeCanvas());
+        </script>
         <script type="text/javascript" src="missile.js"></script>
     </body>
 </html>
