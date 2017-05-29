@@ -4,8 +4,9 @@ var ctx = canvas.getContext("2d");
 var missileArray = [],
     boomArray = [],
     boomRadius = 35,
+    centerX = canvas.width / 2,
+    centerY = canvas.height / 2,
     earth = canvas.height - 50,
-    center = canvas.width / 2,
     aimer = earth - 35,
     cityArray = [];
 
@@ -24,15 +25,13 @@ function main() {
 
     if (isPlaying) {
         window.requestAnimationFrame(main);
-    } else {
-        titleScreen();
     }
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    drawMap();
+    drawMap(); //consider moving this to line 48
     
     if (clockNew >= clock + 1000) {
         roundTimer--;
@@ -55,9 +54,12 @@ function main() {
     
     missileAdvance();
     boomAdvance();
-    
     drawHud();
     clockNew = new Date().getTime();
+
+    if (!isPlaying) {
+        gameOver();
+    }
 
 }
 
@@ -82,7 +84,7 @@ function launchMissile() {
                 targets.push(cityArray[i].x);
             }
         }
-        targets.push(center);
+        targets.push(centerX);
         var t = Math.floor(Math.random() * targets.length);
         
         calcMissile(rollDice(), 0, targets[t], earth)
@@ -95,6 +97,7 @@ function launchMissile() {
 function calcMissile(xst, yst, xnd, ynd) {
 
     var segmod = 0.5;
+    //try to get the missiles to move a the same-ish speed regardless of angle
     var segs = Math.sqrt(Math.pow(xst - xnd, 2) + Math.pow(yst - ynd, 2)) * segmod;
     
     var missilePlot = {
@@ -187,7 +190,7 @@ function boomAdvance() {
             }
         }
         
-        if (Math.pow(center - boomArray[n].x, 2) + Math.pow(earth - 15 -
+        if (Math.pow(centerX - boomArray[n].x, 2) + Math.pow(earth - 15 -
             boomArray[n].y, 2) <= Math.pow(boomArray[n].progress, 2)) {
             missiles = 0;
         }
@@ -208,7 +211,7 @@ function drawMap() {
     ctx.fillRect(0, earth, canvas.width, canvas.height);
     ctx.beginPath();
     ctx.moveTo((canvas.width / 2) - 40, earth);
-    ctx.quadraticCurveTo(center, earth - 60, center + 40, earth);
+    ctx.quadraticCurveTo(centerX, earth - 60, centerX + 40, earth);
     ctx.moveTo((canvas.width / 2) - 40, earth);
     ctx.fillStyle = "green";
     ctx.fill();
@@ -238,9 +241,9 @@ function drawHud() {
     // add the base last (looks better this way when shooting)
     ctx.beginPath();
     ctx.fillStyle = "gray";
-    ctx.fillRect(center - 10, earth - 35, 20, 10);
+    ctx.fillRect(centerX - 10, earth - 35, 20, 10);
     ctx.beginPath();
-    ctx.arc(center, aimer, 10, 0, 2 * Math.PI);
+    ctx.arc(centerX, aimer, 10, 0, 2 * Math.PI);
     ctx.fillStyle = "gray";
     ctx.fill();
     
@@ -250,17 +253,17 @@ function drawHud() {
     ctx.fillStyle = "black";
     ctx.fillText(
         missiles > 9 ? missiles : "0" + missiles,
-        center, earth
+        centerX, earth
     );
     
     ctx.fillText(
         roundTimer > 9 ? "0:" + roundTimer : "0:0" + roundTimer,
-        center, earth + 25
+        centerX, earth + 25
     );
     
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.fillText(score, center, 50);
+    ctx.fillText(score, centerX, 50);
     
 }
 
@@ -307,7 +310,7 @@ canvas.addEventListener("click", function playerFire(event) {
     var mouseY = event.clientY - field.top;
     if (isPlaying) {
         if (missiles > 0) {
-            calcMissile(center, aimer, mouseX, mouseY);
+            calcMissile(centerX, aimer, mouseX, mouseY);
             missiles--;
         }
     } else {
@@ -323,7 +326,6 @@ function deathTest(){
     }
     if (aliveCities == 0) {
         isPlaying = false;
-        titleScreen();
     }
 }
 
@@ -331,16 +333,29 @@ function titleScreen(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    //populateCities();
+    populateCities();
     drawMap();
     drawHud();
+    titleBox();
+}
+
+function gameOver() {
+    titleBox();
+}
+
+function titleBox() {
+    ctx.fillStyle = "black";
+    ctx.fillRect(canvas.width / 4, centerY - 110, canvas.width / 2, canvas.height / 4);
+
+    ctx.strokeStyle = "white";
+    ctx.strokeRect(canvas.width / 4, centerY - 110, canvas.width / 2, canvas.height / 4);
+
     ctx.font = "45px Sans";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.fillText("Missile Barrage", canvas.width/2, (canvas.height/2)-20);
+    ctx.fillText("Missile Barrage", centerX, centerY - 20);
     ctx.font = "25px Sans";
-    ctx.fillText("Click to Begin!", canvas.width/2, (canvas.height/2)+20);
+    ctx.fillText("Click to Begin!", centerX, centerY + 20);
 }
-
 
 titleScreen();
