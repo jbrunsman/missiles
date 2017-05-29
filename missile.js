@@ -12,12 +12,12 @@ var fifty = canvas.width * 0.05,
 
 var missileArray = [],
     boomArray = [],
+    cityArray = [],
     boomRadius = thirtyfive,
     centerX = canvas.width / 2,
     centerY = canvas.height / 2,
     earth = canvas.height - fifty,
-    aimer = earth - thirtyfive
-    cityArray = [];
+    aimer = earth - thirtyfive;
 
 var missiles = 20,
     score = 0,
@@ -105,7 +105,7 @@ function launchMissile() {
 
 function calcMissile(xst, yst, xnd, ynd) {
 
-    var segmod = (canvas.width / 2000) // slow down missiles on a tiny screen, 0.5 for 1000px screen standard
+    var segmod = 500 / canvas.width // slow down missiles on a tiny screen, 0.5 for 1000px screen standard
     //try to get the missiles to move a the same-ish speed regardless of angle
     var segs = Math.sqrt(Math.pow(xst - xnd, 2) + Math.pow(yst - ynd, 2)) * segmod;
     
@@ -194,7 +194,7 @@ function boomAdvance() {
                 boomArray.push({
                     x : cityArray[i].x,
                     y : earth,
-                    progress : 20,
+                    progress : twenty,
                 });
             }
         }
@@ -207,7 +207,7 @@ function boomAdvance() {
         if (boomArray[n].progress >= boomRadius) {
             boomArray.splice(n, 1);
         } else {
-            boomArray[n].progress += 1;
+            boomArray[n].progress += canvas.width / 1000; // scale the timing of the explosion to the canvas
         }
     }
 }
@@ -220,7 +220,7 @@ function drawMap() {
     ctx.fillRect(0, earth, canvas.width, canvas.height);
     ctx.beginPath();
     ctx.moveTo(centerX - forty, earth);
-    ctx.quadraticCurveTo(centerX, earth - thirty, centerX + forty, earth);
+    ctx.quadraticCurveTo(centerX, earth - (thirty * 2), centerX + forty, earth);
     ctx.moveTo(centerX - forty, earth);
     ctx.fillStyle = "green";
     ctx.fill();
