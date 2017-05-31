@@ -78,6 +78,9 @@ function main() {
 
 function launchMissile() {
 
+    var computerlaunch = new Audio('sounds/computerlaunch.wav');
+    computerlaunch.play();
+
     function rollDice() {
         min = Math.ceil(0);
         max = Math.floor(canvas.width);
@@ -98,8 +101,6 @@ function launchMissile() {
         }
         targets.push(centerX);
         var t = Math.floor(Math.random() * targets.length);
-        var computerlaunch = new Audio('sounds/computerlaunch.wav');
-        computerlaunch.play();
         calcMissile(rollDice(), 0, targets[t], earth)
     }
 }
@@ -212,6 +213,8 @@ function boomAdvance() {
         
         if (Math.pow(centerX - boomArray[n].x, 2) + Math.pow(earth - fifteen -
             boomArray[n].y, 2) <= Math.pow(boomArray[n].progress, 2)) {
+            var cityboom = new Audio('sounds/cityboom.wav');
+            cityboom.play();
             missiles = 0;
         }
                 
