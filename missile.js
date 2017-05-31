@@ -59,6 +59,8 @@ function main() {
         missiles = 20;
         roundTimer = 20;
         score += 100;
+        var restock = new Audio('sounds/restock.wav');
+        restock.play();
         if (roundCount > 1) { roundCount--; }
     }
     
@@ -96,7 +98,8 @@ function launchMissile() {
         }
         targets.push(centerX);
         var t = Math.floor(Math.random() * targets.length);
-        
+        var computerlaunch = new Audio('sounds/computerlaunch.wav');
+        computerlaunch.play();
         calcMissile(rollDice(), 0, targets[t], earth)
     }
 }
@@ -167,6 +170,11 @@ function boomAdvance() {
             2 * Math.PI);
         ctx.fillStyle = "yellow";
         ctx.fill();
+
+        if (boomArray[n].progress == 0) {
+            var boom = new Audio('sounds/boom.wav');
+            boom.play();
+        }
         
         for (i = missileArray.length - 1; i >= 0; i--) {
             if (Math.pow(missileArray[i].xnow - boomArray[n].x, 2) + Math.pow(
@@ -191,6 +199,8 @@ function boomAdvance() {
                 && cityArray[i].alive === true ) {
                 
                 cityArray[i].alive = false;
+                var cityboom = new Audio('sounds/cityboom.wav');
+                cityboom.play();
                 deathTest();
                 boomArray.push({
                     x : cityArray[i].x,
@@ -326,6 +336,8 @@ canvas.addEventListener("click", function playerFire(event) {
         if (missiles > 0) {
             calcMissile(centerX, aimer, mouseX, mouseY);
             missiles--;
+            var playerlaunch = new Audio('sounds/playerlaunch.wav');
+            playerlaunch.play();
         }
     } else {
         isPlaying = true;
