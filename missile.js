@@ -78,8 +78,7 @@ function main() {
 
 function launchMissile() {
 
-    var computerlaunch = new Audio('sounds/computerlaunch.wav');
-    computerlaunch.play();
+
 
     function rollDice() {
         min = Math.ceil(0);
@@ -88,6 +87,8 @@ function launchMissile() {
     }
 
     if (Math.floor((Math.random() * 100) + 1) < 75) {
+        var computerlaunch = new Audio('sounds/computerlaunch.wav');
+        computerlaunch.play();
 
         calcMissile(rollDice(), 0, rollDice(), earth);
         
@@ -100,7 +101,11 @@ function launchMissile() {
             }
         }
         targets.push(centerX);
+        var computerlaunchA = new Audio('sounds/computerlaunch_aimed.wav');
+        computerlaunchA.play();
+
         var t = Math.floor(Math.random() * targets.length);
+       
         calcMissile(rollDice(), 0, targets[t], earth)
     }
 }
@@ -213,8 +218,10 @@ function boomAdvance() {
         
         if (Math.pow(centerX - boomArray[n].x, 2) + Math.pow(earth - fifteen -
             boomArray[n].y, 2) <= Math.pow(boomArray[n].progress, 2)) {
-            var cityboom = new Audio('sounds/cityboom.wav');
-            cityboom.play();
+            if (missiles > 0) {
+                var baseboom = new Audio('sounds/baseboom.wav');
+                baseboom.play();
+            }
             missiles = 0;
         }
                 
