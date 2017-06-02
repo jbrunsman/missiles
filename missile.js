@@ -87,8 +87,8 @@ function launchMissile() {
     }
 
     if (Math.floor((Math.random() * 100) + 1) < 75) {
-        var computerlaunch = new Audio('sounds/computerlaunch.wav');
-        computerlaunch.play();
+        var missile_unaimed = new Audio('sounds/missile_unaimed.wav');
+        missile_unaimed.play();
 
         calcMissile(rollDice(), 0, rollDice(), earth);
         
@@ -101,8 +101,8 @@ function launchMissile() {
             }
         }
         targets.push(centerX);
-        var computerlaunchA = new Audio('sounds/computerlaunch_aimed.wav');
-        computerlaunchA.play();
+        var missile_aimed = new Audio('sounds/missile_aimed.wav');
+        missile_aimed.play();
 
         var t = Math.floor(Math.random() * targets.length);
        
@@ -205,8 +205,8 @@ function boomAdvance() {
                 && cityArray[i].alive === true ) {
                 
                 cityArray[i].alive = false;
-                var cityboom = new Audio('sounds/cityboom.wav');
-                cityboom.play();
+                var boom_city = new Audio('sounds/boom_city.wav');
+                boom_city.play();
                 deathTest();
                 boomArray.push({
                     x : cityArray[i].x,
@@ -219,8 +219,8 @@ function boomAdvance() {
         if (Math.pow(centerX - boomArray[n].x, 2) + Math.pow(earth - fifteen -
             boomArray[n].y, 2) <= Math.pow(boomArray[n].progress, 2)) {
             if (missiles > 0) {
-                var baseboom = new Audio('sounds/baseboom.wav');
-                baseboom.play();
+                var boom_base = new Audio('sounds/boom_base.wav');
+                boom_base.play();
             }
             missiles = 0;
         }
@@ -346,8 +346,8 @@ canvas.addEventListener("click", function playerFire(event) {
         if (missiles > 0) {
             calcMissile(centerX, aimer, mouseX, mouseY);
             missiles--;
-            var playerlaunch = new Audio('sounds/playerlaunch.wav');
-            playerlaunch.play();
+            var missile_player = new Audio('sounds/missile_player.wav');
+            missile_player.play();
         }
     } else {
         isPlaying = true;
