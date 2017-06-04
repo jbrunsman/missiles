@@ -43,7 +43,7 @@ function main() {
 
     drawMap(); //consider moving this to line 48
     
-    if (clockNew >= clock + 1000) {
+    if (clockNew >= clock +1000) {
         roundTimer--;
         
         if (missileTimer >= roundCount) {
@@ -235,14 +235,15 @@ function boomAdvance() {
 
 
 function drawMap() {
+    var earthPlus = earth + 1;
 
     // draw earth
     ctx.fillStyle = "green";
     ctx.fillRect(0, earth, canvas.width, canvas.height);
     ctx.beginPath();
-    ctx.moveTo(centerX - forty, earth);
-    ctx.quadraticCurveTo(centerX, earth - (thirty * 2), centerX + forty, earth);
-    ctx.moveTo(centerX - forty, earth);
+    ctx.moveTo(centerX - forty, earthPlus);
+    ctx.quadraticCurveTo(centerX, (earthPlus) - (thirty * 2), centerX + forty, earthPlus);
+    ctx.moveTo(centerX - forty, earthPlus);
     ctx.fillStyle = "green";
     ctx.fill();
 
@@ -251,11 +252,11 @@ function drawMap() {
         if (cityArray[i].alive) {
             ctx.beginPath();
             ctx.fillStyle = "dimgray";
-            ctx.fillRect(cityArray[i].x - twenty, earth - fifteen, twenty, fifteen);
+            ctx.fillRect(cityArray[i].x - twenty, earthPlus - fifteen, twenty, fifteen);
             ctx.fillStyle = "gray";
-            ctx.fillRect(cityArray[i].x - ten, earth - thirty, twenty, thirty);
+            ctx.fillRect(cityArray[i].x - ten, earthPlus - thirty, twenty, thirty);
             ctx.fillStyle = "silver";
-            ctx.fillRect(cityArray[i].x, earth - twenty, twenty, twenty);
+            ctx.fillRect(cityArray[i].x, earthPlus - twenty, twenty, twenty);
         } else {
             ctx.beginPath();
             ctx.arc(cityArray[i].x, earth - twenty, boomRadius, 0, 2 * Math.PI);
