@@ -40,8 +40,6 @@ function main() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    drawMap(); //consider moving this to line 48
     
     if (clockNew >= clock +1000) {
         roundTimer--;
@@ -63,7 +61,8 @@ function main() {
         restock.play();
         if (roundCount > 1) { roundCount--; }
     }
-    
+
+    drawMap();
     missileAdvance();
     boomAdvance();
     drawHud();
@@ -395,9 +394,11 @@ function titleBox() {
     ctx.font = f1;
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.fillText("Missile Barrage", centerX, centerY - twenty);
+    ctx.fillText("Missile Barrage", centerX, centerY - forty);
     ctx.font = f2;
-    ctx.fillText("Click to Begin!", centerX, centerY + twenty);
+    ctx.fillText("By Jake Brunsman", centerX, centerY - ten);
+    ctx.fillStyle = "yellow";
+    ctx.fillText("Click to Begin!", centerX, centerY + forty);
 }
 
 titleScreen();
