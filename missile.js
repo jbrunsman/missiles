@@ -1,3 +1,13 @@
+/*
+This game uses these sounds from freesound:
+dropthabomb by ice9ine ( http://freesound.org/people/ice9ine/sounds/22503/ )
+CinematicBoomNorm by HerbertBoland ( http://freesound.org/people/HerbertBoland/sounds/33637/ )
+Boom_C_06 by cabled_mess ( http://freesound.org/people/cabled_mess/sounds/350977/ )
+Spacey 1up by GameAudio ( http://freesound.org/people/GameAudio/sounds/220173/ )
+Explode001 by mitchelk ( http://freesound.org/people/mitchelk/sounds/136765/ )
+explosion flangered by destro_94 ( http://freesound.org/people/destro_94/sounds/84521/ )
+*/
+
 var canvas = document.getElementById("gameCanvas");
 var ctx = canvas.getContext("2d");
 
